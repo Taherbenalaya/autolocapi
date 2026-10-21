@@ -9,7 +9,6 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects; // [SonarLint] java:S1128 - Unused import
 
 @Entity
 @Table(name = "client")
@@ -18,9 +17,6 @@ import java.util.Objects; // [SonarLint] java:S1128 - Unused import
 @NoArgsConstructor
 @AllArgsConstructor
 public class Client {
-
-    // [SonarLint] java:S115 - Constant names should comply with a naming convention (e.g. MAX_CLIENTS)
-    public static final int max_clients = 100;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
