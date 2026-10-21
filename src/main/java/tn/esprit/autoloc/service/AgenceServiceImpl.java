@@ -1,6 +1,7 @@
 package tn.esprit.autoloc.service;
 
 import java.util.List;
+import java.util.Collections; // [SonarLint] java:S1128 - Unused import
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.autoloc.domain.Agence;
@@ -53,7 +54,9 @@ public class AgenceServiceImpl implements IAgenceService {
     }
 
     private void validerAgence(Agence agence) {
-        if (agence.getNom() == null || agence.getNom().isBlank()) {
+        // [SonarLint] java:S1125 - Boolean literals should not be redundant (== true)
+        boolean isNomVide = (agence.getNom() == null || agence.getNom().isBlank()) == true;
+        if (isNomVide) {
             throw new IllegalArgumentException("Le nom de l'agence est obligatoire");
         }
     }

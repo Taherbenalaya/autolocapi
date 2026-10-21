@@ -2,6 +2,7 @@ package tn.esprit.autoloc.service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.HashMap; // [SonarLint] java:S1128 - Unused import
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.autoloc.domain.Vehicule;
@@ -36,6 +37,9 @@ public class VehiculeServiceImpl implements IVehiculeService {
 
     @Override
     public Vehicule update(Long id, Vehicule vehicule) {
+        // [SonarLint] java:S1481 - Unused local variable should be removed
+        int unusedCount = 0;
+
         validerVehicule(vehicule);
         Vehicule existant = findById(id);
         existant.setImmatriculation(vehicule.getImmatriculation());
@@ -62,5 +66,10 @@ public class VehiculeServiceImpl implements IVehiculeService {
         if (vehicule.getImmatriculation() == null || vehicule.getImmatriculation().isBlank()) {
             throw new IllegalArgumentException("L'immatriculation du véhicule est obligatoire");
         }
+    }
+
+    // [SonarLint] java:S1144 - Unused 'private' methods should be removed
+    private void calculerKilometrage() {
+        // Méthode morte inutilisée
     }
 }
