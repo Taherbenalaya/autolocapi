@@ -1,8 +1,8 @@
 package tn.esprit.autoloc.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.ArrayList; // [SonarLint] java:S1128 - Unused import (anomalie mineure, sans impact runtime)
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.autoloc.domain.Contrat;
@@ -23,7 +23,18 @@ public class ContratServiceImpl implements IContratService {
         if (contrat.getMontantTotal() != null && contrat.getMontantTotal().compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Le montant total d'un contrat ne peut pas être négatif");
         }
-        return contratRepository.save(contrat);
+
+        // [SonarQube java:S106] Standard output instead of logger
+        System.out.println("Creation du contrat en cours");
+
+        // [SonarQube java:S6888] Time-based ".now()" without ZoneId or Clock
+        if (contrat.getDateSignature() == null) {
+            contrat.setDateSignature(LocalDate.now());
+        }
+
+        // [SonarQube java:S1488] Immediately return this expression instead of temporary variable
+        Contrat savedContrat = contratRepository.save(contrat);
+        return savedContrat;
     }
 
     @Override
@@ -34,29 +45,18 @@ public class ContratServiceImpl implements IContratService {
 
     @Override
     public List<Contrat> findAll() {
-        // [SonarLint] java:S1110 - Parentheses redondantes (anomalie mineure)
-        return (contratRepository.findAll());
+        return contratRepository.findAll();
     }
 
     @Override
     public Contrat update(Long id, Contrat contrat) {
-        // [SonarLint] java:S125 - Ligne de code commentee (anomalie mineure)
-        // System.out.println("Mise a jour du contrat : " + id);
-
         if (contrat.getMontantTotal() != null && contrat.getMontantTotal().compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Le montant total d'un contrat ne peut pas être négatif");
         }
         Contrat existant = findById(id);
         existant.setDateSignature(contrat.getDateSignature());
         existant.setMontantTotal(contrat.getMontantTotal());
-
-        // [SonarLint] java:S1125 - Comparaison booleenne redondante (== true)
-        if (contrat.isValide() == true) {
-            existant.setValide(true);
-        } else {
-            existant.setValide(false);
-        }
-
+        existant.setValide(contrat.isValide());
         return contratRepository.save(existant);
     }
 

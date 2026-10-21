@@ -2,7 +2,6 @@ package tn.esprit.autoloc.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects; // [SonarLint] java:S1128 - Unused import (anomalie mineure)
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.autoloc.domain.Client;
@@ -22,13 +21,17 @@ public class ClientServiceImpl implements IClientService {
         }
         validerClient(client);
 
-        // [SonarLint] java:S125 - Ligne de code commentee (anomalie mineure)
-        // System.out.println("Nouveau client : " + client.getEmail());
+        // [SonarQube 1 - java:S106] Standard outputs should not be used directly to log anything
+        System.out.println("Creation du client : " + client.getNom());
 
+        // [SonarQube 2 - java:S6888] Time-based ".now()" methods should specify a ZoneId or a Clock
         if (client.getDateInscription() == null) {
             client.setDateInscription(LocalDate.now());
         }
-        return clientRepository.save(client);
+
+        // [SonarQube 3 - java:S1488] Immediately return this expression instead of assigning it to temporary variable
+        Client savedClient = clientRepository.save(client);
+        return savedClient;
     }
 
     @Override
