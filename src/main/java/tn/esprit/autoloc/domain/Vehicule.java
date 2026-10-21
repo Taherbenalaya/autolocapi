@@ -9,6 +9,9 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date; // [SonarLint] java:S1128 - Unused import
+import java.io.Serializable; // [SonarLint] java:S1128 - Unused import
+import java.util.HashMap; // [SonarLint] java:S1128 - Unused import
 
 @Entity
 @Table(name = "vehicule")
@@ -21,6 +24,9 @@ public class Vehicule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idVehicule;
+
+    // [SonarLint] java:S1068 - Unused private field should be removed
+    private String tempCode;
 
     @Column(nullable = false, unique = true, length = 20)
     private String immatriculation;

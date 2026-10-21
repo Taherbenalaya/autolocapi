@@ -25,10 +25,12 @@ Toutes nos interfaces dans `tn.esprit.autoloc.repository` etendent `JpaRepositor
 
 ## 2. Analyse SonarQube for IDE (SonarLint)
 
-*(Tableau a ajuster / completer lors de mes propres tests avec le plugin SonarQube dans IntelliJ)*
+Anomalies presentes dans le code a observer et corriger avec le plugin SonarQube / SonarLint dans IntelliJ :
 
-| Anomalie SonarQube for IDE | Regle / explication | Correction apportee |
-| :--- | :--- | :--- |
-| Utilisation de `@Data` sur les entites | Risque de boucle infinie (`StackOverflowError`) dans `toString()` / `hashCode()` a cause des relations bidirectionnelles. | Remplace par `@Getter`, `@Setter`, `@NoArgsConstructor` et `@AllArgsConstructor`. |
-| Imports inutilises | Imports residuels qui encombrent le code. | Nettoye avec `Optimize Imports` dans IntelliJ. |
-| Visibilite des attributs | Les champs doivent etre encapsules pour respecter les conventions Clean Code. | Verifie que tous les attributs sont bien `private`. |
+| Fichier cible | Anomalie detectee | Regle Sonar / Explication | Correction a apporter |
+| :--- | :--- | :--- | :--- |
+| `Vehicule.java` | Imports inutilises (`java.util.Date`, `java.io.Serializable`, `java.util.HashMap`) | `java:S1128` : Les imports inutilises polluent le code et ralentissent la maintenance. | Supprimer les lignes d'import inutilisees (ou `Ctrl + Alt + O` / `Optimize Imports`). |
+| `Vehicule.java` | Champ prive inutilise (`tempCode`) | `java:S1068` : "Unused private fields should be removed" (code mort). | Supprimer l'attribut `tempCode` qui n'a ni getter ni setter. |
+| `IVehiculeRepository.java` | Modificateurs redondants `public abstract` sur methode d'interface | `java:S2333` : Dans une interface Java, les methodes sont implicitement `public` et `abstract`. | Enlever `public abstract` devant la signature de methode. |
+| `IContratRepository.java` | Annotation `@Repository` redondante sur interface Spring Data | Les interfaces qui etendent `JpaRepository` sont automatiquement reconnues par Spring Boot au demarrage. | Supprimer `@Repository` et son import. |
+| `Client.java` | Nom de constante non conforme (`max_clients`) | `java:S115` : Les constantes `static final` doivent respecter la convention MAJUSCULE_AVEC_UNDERSCORE. | Renommer en `MAX_CLIENTS` ou supprimer si inutile. |
