@@ -29,4 +29,15 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private StatutReservation statut;
+
+    @ManyToOne
+    @JoinColumn(name = "id_client")
+    private Client client;
+
+    @ManyToOne
+    @JoinColumn(name = "id_vehicule")
+    private Vehicule vehicule;
+
+    @OneToOne(mappedBy = "reservation")
+    private Contrat contrat;
 }
