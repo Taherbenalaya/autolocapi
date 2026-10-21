@@ -2,6 +2,7 @@ package tn.esprit.autoloc.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects; // [SonarLint] java:S1128 - Unused import (anomalie mineure)
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.autoloc.domain.Client;
@@ -20,6 +21,10 @@ public class ClientServiceImpl implements IClientService {
             throw new IllegalArgumentException("Un nouveau client ne doit pas avoir d'identifiant");
         }
         validerClient(client);
+
+        // [SonarLint] java:S125 - Ligne de code commentee (anomalie mineure)
+        // System.out.println("Nouveau client : " + client.getEmail());
+
         if (client.getDateInscription() == null) {
             client.setDateInscription(LocalDate.now());
         }
