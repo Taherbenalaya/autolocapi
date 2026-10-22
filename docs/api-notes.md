@@ -5,7 +5,7 @@
 ## A. Endpoints
 
 Le préfixe commun configuré dans `application.properties` est `server.servlet.context-path=/api`.  
-Tous les endpoints sont donc exposés sous l'URL de base : `http://localhost:8080/api`.
+Tous les endpoints sont donc exposés sous l'URL de base : `http://localhost:8081/api` (port 8081 configuré via `server.port=8081`).
 
 | Contrôleur | Verbe HTTP | Route relative | Service appelé | Code Succès | Codes Erreur |
 | :--- | :--- | :--- | :--- | :---: | :---: |
@@ -81,7 +81,7 @@ Dans une architecture sans DTO (où les entités JPA sont directement sérialis�
 | Critère | Postman | Swagger UI (SpringDoc OpenAPI) |
 | :--- | :--- | :--- |
 | **Rôle principal** | Outil de test, d'automatisation, et de validation des requêtes HTTP. | Outil de documentation interactive et de formalisation du contrat d'API. |
-| **Cas d'usage concret rencontré** | Permet de créer des chaînes de requêtes dynamiques : par exemple, récupérer l'identifiant généré après un `POST /api/contrats` via `pm.environment.set("contratId", pm.response.json().idContrat)` pour alimenter automatiquement les tests suivants (`GET`, `PUT`, `DELETE`). Permet aussi de valider les codes de retour négatifs (400, 404, 405) via des assertions automatisées (`pm.test`). | Permet à un développeur tiers ou frontend de visualiser en un coup d'œil l'ensemble des schémas d'objets, les paramètres acceptés, et d'exécuter un test rapide directement depuis le navigateur sur `http://localhost:8080/api/swagger-ui.html` sans installation préalable. |
+| **Cas d'usage concret rencontré** | Permet de créer des chaînes de requêtes dynamiques : par exemple, récupérer l'identifiant généré après un `POST /api/contrats` via `pm.environment.set("contratId", pm.response.json().idContrat)` pour alimenter automatiquement les tests suivants (`GET`, `PUT`, `DELETE`). Permet aussi de valider les codes de retour négatifs (400, 404, 405) via des assertions automatisées (`pm.test`). | Permet à un développeur tiers ou frontend de visualiser en un coup d'œil l'ensemble des schémas d'objets, les paramètres acceptés, et d'exécuter un test rapide directement depuis le navigateur sur `http://localhost:8081/api/swagger-ui/index.html` (ou `/api/swagger-ui.html`) sans installation préalable. |
 | **Complémentarité** | Postman valide le comportement dynamique et la logique métier de l'API au fil des développements. | Swagger garantit que le contrat exposé reste en permanence synchronisé avec le code source Java. |
 
 ---
